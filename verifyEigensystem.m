@@ -13,16 +13,22 @@
 %
 % Wyjscie:
 % * result - wynik sprawdzenia (0 - nie zgadza sie, 1 - zgadza sie)
+% * maxDivergence - maksymalna roznica A * x - lambda * x dla zestawu
 %
 % Autor: Grzegorz Rozdzialik (D4, gr. lab. 2)
 
-function result = verifyEigensystem(A, eigenvalues, eigenvectors, delta)
+function [result, maxDivergence] = verifyEigensystem(A, eigenvalues, eigenvectors, delta)
+maxDivergence = 0;
+
 for i=1:length(eigenvalues)
     lambda = eigenvalues(i);
     x = eigenvectors(:, i);
     
     % Sprawdzenie normy
     divergence = norm(A * x - lambda * x);
+    if (maxDivergence < divergence)
+        maxDivergence = divergence;
+    end
     if (divergence > delta)
         result = 0;
         return
