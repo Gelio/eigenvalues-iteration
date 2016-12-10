@@ -27,7 +27,7 @@ n = 10;
 A = constructMatrix(n);
 
 % Znalezienie wartosci i wektorow wlasnych
-[eigenvalues, eigenvectors] = findEigenvaluesAndVectors(A, deltaObliczen, limitIteracji);
+[eigenvalues, eigenvectors] = findEigenvaluesAndVectors(A, delta, limitIteracji);
 
 % Weryfikacja czy wlasnosci wartosci wlasnych i wektorow wlasnych sa
 % spelnione
