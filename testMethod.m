@@ -20,7 +20,7 @@ delta = 0.1;
 % pojedynczej wartosci wlasnej
 limitIteracji = 100;
 % n - rozmiar macierzy A
-n = 10;
+n = 20;
 
 % * Koniec konfiguracji *
 
@@ -39,7 +39,7 @@ E = calculateErrorMatrix(A, eigenvalues, eigenvectors);
 Enorm = norm(E);
 
 fprintf('Metoda potegowa z normowaniem:\n');
-fprintf('Maksymalny odchyl A * x - lambda * x: %e\n', max(max(E)));
+fprintf('Maksymalny odchylenie A * x - lambda * x: %e\n', max(max(abs(E))));
 fprintf('Norma wektora bledu: %e\n\n', Enorm);
 
 
@@ -55,7 +55,7 @@ EMatlab = calculateErrorMatrix(A, matlabEigenvalues, matlabEigenvectors);
 EMatlabNorm = norm(EMatlab);
 
 fprintf('Funkcja eig dostepna w Matlabie:\n');
-fprintf('Maksymalny odchyl A * x - lambda * x: %e\n', max(max(EMatlab)));
+fprintf('Maksymalny odchylenie A * x - lambda * x: %e\n', max(max(abs(EMatlab))));
 fprintf('Norma wektora bledu: %e\n\n', EMatlabNorm);
 
 
