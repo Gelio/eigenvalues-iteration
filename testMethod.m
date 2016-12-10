@@ -12,7 +12,7 @@
 % Delta - warunek stopu na maksymalna roznice miedzy kolejnymi
 % przyblizeniami wartosci wlasnej, jezeli bedzie mniejsza to obliczenia nie
 % sa kontynuowane
-delta = 0.01;
+delta = 0.001;
 % Limit iteracji - ograniczenie na liczbe iteracji dla przyblizania
 % pojedynczej wartosci wlasnej
 limitIteracji = 100;
@@ -31,7 +31,7 @@ A = constructMatrix(n);
 
 % Weryfikacja czy wlasnosci wartosci wlasnych i wektorow wlasnych sa
 % spelnione
-E = calculateErrorVector(A, eigenvalues, eigenvectors);
+E = calculateErrorMatrix(A, eigenvalues, eigenvectors);
 Enorm = norm(E);
 
 fprintf('Maksymalny odchyl A * x - lambda * x: %e\n', max(max(E)));

@@ -77,14 +77,11 @@
 	\begin{equation*}
 		E = 
 		\begin{bmatrix}
-			e_0     \\
-			e_1     \\
-			\vdots  \\
-			e_{n-1}
+			e_0 & e_1 & e_2 & \dots & e_{n-1}
 		\end{bmatrix}
 	\end{equation*}
 	
-	Licząc normę z wektora $E$ otrzymujemy konkretną wartość oznaczającą dokładność znalezionych wartości i wektorów własnych.
+	Licząc normę z macierzy $E$ otrzymujemy konkretną wartość oznaczającą dokładność znalezionych wartości i wektorów własnych.
 	
 	\section{Implementacja metody}
 	Implementacja metody podzielona jest na następujące kroki:
@@ -92,7 +89,7 @@
 		\item Konstruowanie macierzy $A$ rozmiaru $n \times n$ (funkcja \texttt{constructMatrix})
 		\item Wykonanie metody potęgowej z normowaniem w celu znalezienia dominującej wartości własnej $\lambda_i$ macierzy $A_i$ (funkcja \texttt{powerIteration})
 		\item Powtarzanie kroku związanego z metodą potęgową oraz deflacja po znalezieniu $\lambda_i$ w celu znalezienia wszystkich wartości własnych macierzy $A$ (funkcja \texttt{findEigenvaluesAndVectors})
-		\item Weryfikacja wartości własnych $\lambda_i$ oraz związanych z nimi wektorów własnych $x_i$ (funkcja \texttt{verifyEigensystem})
+		\item Obliczenie macierzy błędu $E$ (funkcja \texttt{calculateErrorMatrix})
 	\end{enumerate}
 
 	
