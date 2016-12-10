@@ -141,6 +141,50 @@
 		
 		Zwiększenie rozmiaru macierzy zmniejszyło dokładność obu metod oraz wydłużyło ich czas działania.
 		
+		
+		\item
+		$n = 20, \delta = 10^{-5}$
+		\begin{align*}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                                        & metoda potęgowa & funkcja \texttt{eig} \\ \hline
+			maksymalny błąd $A x_i - \lambda_i x_i$ &      26.3       &         29.6         \\ \hline
+			       norma macierzy błędu $E$         &      110.0      &        110.2         \\ \hline
+			           czas przybliżania            &   14.4620 ms    &      0.4081 ms       \\ \hline
+		\end{tabular}
+		\end{align*}
+		
+		Zmniejszenie parametru $\delta$ spowodowało zredukowanie maksymalnego błędu $A x_i - \lambda_i x_i$ o około $30\%$, jednak norma macierzy błędu nie odniosła podobnych zmian. Ogólnie dokładność jest porównywalna z tą funkcji \texttt{eig}, podczas gdy czas działania został znacznie zwiększony.
+		
+		
+		\item
+		$n = 100, \delta = 0.1$
+		\begin{align*}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                                        & metoda potęgowa & funkcja \texttt{eig} \\ \hline
+			maksymalny błąd $A x_i - \lambda_i x_i$ &      89.2       &         66.9         \\ \hline
+			       norma macierzy błędu $E$         &      577.2      &        583.2         \\ \hline
+			           czas przybliżania            &   48.9731 ms    &      1.8216 ms       \\ \hline
+		\end{tabular}
+		\end{align*}
+		
+		Przy dużych macierzach ($n = 100$) i $\delta = 0.1$ zastosowanie metody potęgowej skutkuje uzyskaniem podobnej dokładności co po zastosowaniu funkcji \texttt{eig}, jednakże czas działania znowu jest krótszy w przypadku funkcji z Matlaba.
+		
+		
+		\item
+		$n = 1000, \delta = 0.1$
+		\begin{align*}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                                        & metoda potęgowa & funkcja \texttt{eig} \\ \hline
+			maksymalny błąd $A x_i - \lambda_i x_i$ &      284.3      &        205.8         \\ \hline
+			       norma macierzy błędu $E$         &     5850.4      &        5907.6        \\ \hline
+			           czas przybliżania            &   33457.7 ms    &       424.8 ms       \\ \hline
+		\end{tabular}
+		\end{align*}
+		
+		Dla bardzo dużej macierzy ($n = 1000$) występuje odczuwalna różnica, pomiędzy czasem działania obu funkcji. Metoda potęgowa w tej sytuacji działała ponad pół minuty, podczas gdy funkcja \texttt{eig} poradziła sobie z zadaniem w poniżej pół sekundy, dając podobne (o ile nawet nie dokładniejsze) wyniki.
 	\end{enumerate}
 	
 	
@@ -148,7 +192,15 @@
 	
 	\section{Wnioski}
 	\begin{enumerate}
-		\item \textbf{TODO}
+		\item Dla małych macierzy ($n < 20$) i parametru $\delta$ rzędu $0.1$ obie funkcje dają podobne wyniki, a różnica w działaniu jest mało znacząca, dla pojedynczej operacji, jednakże mimo wszystko na korzyść funkcji \texttt{eig}.
+		
+		\item Obie metody dają w miarę poprawne, jednakże nie do końca dokładne wyniki, co można zaobserwować analizując normę macierzy błędu $E$. Minimum dla tego parametru osiągała często metoda potęgowa.
+		
+		\item Dla bardzo dużych macierzy ($n$ rzędu $1000$) czas działania metody potęgowej jest długi (ponad pół minuty, przykład 6.).
+		
+		\item Faworytem w kwestii czasu działania podczas testów okazywała się funkcja \texttt{eig}.
+		
+		\item Metoda potęgowa poprawnie obliczała wszystkie wartości własne i wektory własne zadanej macierzy, więc realizowała dobrze swoje zadanie.
 	\end{enumerate}
 	
 	

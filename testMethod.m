@@ -20,7 +20,7 @@ delta = 0.1;
 % pojedynczej wartosci wlasnej
 limitIteracji = 100;
 % n - rozmiar macierzy A
-n = 20;
+n = 1000;
 
 % * Koniec konfiguracji *
 
