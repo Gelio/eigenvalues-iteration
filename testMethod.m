@@ -9,13 +9,10 @@
 % Autor: Grzegorz Rozdzialik (D4, gr. lab. 2)
 
 % * Konfiguracja *
-% Delta obliczen - warunek stopu na maksymalna roznice miedzy kolejnymi
+% Delta - warunek stopu na maksymalna roznice miedzy kolejnymi
 % przyblizeniami wartosci wlasnej, jezeli bedzie mniejsza to obliczenia nie
 % sa kontynuowane
-deltaObliczen = 0.1;
-% Delta wyniku - maksymalna roznica A * x - lambda * x, dla ktorej zestaw
-% wartosci i wektorow wlasnych nadal bedzie uwazany jako prawidlowy
-deltaWyniku = 1;
+delta = 0.01;
 % Limit iteracji - ograniczenie na liczbe iteracji dla przyblizania
 % pojedynczej wartosci wlasnej
 limitIteracji = 100;
@@ -34,17 +31,19 @@ A = constructMatrix(n);
 
 % Weryfikacja czy wlasnosci wartosci wlasnych i wektorow wlasnych sa
 % spelnione
-[result, maxDivergence] = verifyEigensystem(A, eigenvalues, eigenvectors, deltaWyniku);
+E = calculateErrorVector(A, eigenvalues, eigenvectors);
+Enorm = norm(E);
 
-if result == 1
-    resultText = 'zgadza sie';
-else
-    resultText = 'nie zgadza sie';
-end
+fprintf('Maksymalny odchyl A * x - lambda * x: %e\n', max(max(E)));
+fprintf('Norma wektora bledu: %e\n', Enorm);
 
-fprintf('Wynik: %s\n', resultText);
-fprintf('Maksymalny odchyl A * x - lambda * x: %e\n', maxDivergence);
+% Obliczenie wartosci wlasnych za pomoca funkcji eig dostepnej w Matlabie
+matlabEigenvalues = eig(A);
+matlabEigenvalues = matlabEigenvalues(end:-1:1);
 
 realEigenvalues = real(eigenvalues);
-fprintf('Znalezione wartosci wlasne:\n');
-display(realEigenvalues);
+fprintf('Znalezione wartosci wlasne (pierwsza kolumna) oraz te obliczone przez Matlaba (funkcja eig, druga kolumna):\n');
+display([realEigenvalues, matlabEigenvalues]);
+
+fprintf('Norma wektora roznicy wartosci przyblizonych ta metoda oraz obliczonych przez Matlaba: %e\n', ...
+    norm(eigenvalues - matlabEigenvalues));

@@ -1,4 +1,4 @@
-% E = calculateErrorVector(A, eigenvalues, eigenvectors) - funkcja
+% E = calculateErrorMatrix(A, eigenvalues, eigenvectors) - funkcja
 % obliczajaca blad e = A * x - lambda * x dla kazdej wartosci wlasnej i
 % wektora wlasnego z nia zwiazanego.
 %
@@ -10,13 +10,15 @@
 % findEigenvaluesAndVectors
 %
 % Wyjscie:
-% * E - wektor rozmiaru n zawierajacy blad A*x - lambda*x dla kazdej
-% wartosci wlasnej
+% * E - macierz rozmiaru nxn zawierajacy bledy A*x - lambda*x dla kazdej
+% wartosci wlasnej. W i-tej kolumnie znajduje sie blad A*x_i - lambda_i *
+% x_i
 %
 % Autor: Grzegorz Rozdzialik (D4, gr. lab. 2)
 
-function E = calculateErrorVector(A, eigenvalues, eigenvectors)
-E = A .* eigenvectors - eigenvalues .* eigenvectors;
+function E = calculateErrorMatrix(A, eigenvalues, eigenvectors)
+eigenvaluesMatrix = repmat(eigenvalues, 1, length(eigenvalues));
+E = A * eigenvectors - eigenvaluesMatrix * eigenvectors;
 
 end
 
