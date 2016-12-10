@@ -1,0 +1,215 @@
+\documentclass[12pt]{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{centernot}
+\setlength{\parskip}{1em}
+
+
+\begin{document}
+	\title{Sprawozdanie\\Metody Numeryczne 2, laboratorium 5}
+	\author{Grzegorz Rozdzialik (D4, grupa lab. 2)}
+	\maketitle	
+	
+	\section{Zadanie}
+	{\Large Temat \textbf{5}, zadanie \textbf{22}:}\\
+	Stosując metodę potęgową (z normowaniem) oraz deflację $A_1 = A - \lambda x x^*$ oblicz wszystkie wartości własne macierzy trójdiagonalnej $A$, gdzie $a_{k,k} = 5, a_{k, k - 1} = 2+i, a_{k, k+1} = 2-i$.
+	
+	Niech $n \in \mathbb{N}$. Macierz $A \in \mathbb{C}^{n \times n}$ ma postać:
+	\begin{equation*}
+		A =
+		\begin{bmatrix}
+			5      & 2 - i  & 0      & 0      & \dots  & 0      & 0      & 0      \\
+			2+i    & 5      & 2-i    & 0      & \dots  & 0      & 0      & 0      \\
+			0      & 2+i    & 5      & 2-i    & \dots  & 0      & 0      & 0      \\
+			0      & 0      & 2+i    & 5      & \dots  & 0      & 0      & 0      \\
+			\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots & \vdots \\
+			0      & 0      & 0      & 0      & \dots  & 5      & 2-i    & 0      \\
+			0      & 0      & 0      & 0      & \dots  & 2+i    & 5      & 2-i    \\
+			0      & 0      & 0      & 0      & \dots  & 0      & 2+i    & 5
+		\end{bmatrix}
+	\end{equation*}
+	Łatwo zauważyć, że macierz $A$ jest diagonalnie silnie dominująca kolumnowo i wierszowo.
+	
+	Należy znaleźć wszystkie własności własne $\lambda$ macierzy $A$, czyli takie, że:
+	$$\exists x \in (\mathbb{C} \setminus 0) \hspace{10px}  Ax = \lambda x$$
+	
+	Wartości własne $\lambda$ są pierwiastkami wielomianu charakterystycznego macierzy A:
+	$$X(\lambda) = \det (A - \lambda I)$$
+	
+	Z podstawowego twierdzenia algebry wiemy, że pierwiastków wielomianu $X(\lambda)$ jest $n$, co do krotności.
+	
+	
+	\section{Opis metody}
+	Niech $A_0 = A$.
+	
+	Ponieważ metoda potęgowa znajduje dominującą wartość własną macierzy $A_i$ ($i = 0, \dots, n-1$), należy zastosować deflację. Po znalezieniu dominującej wartości własnej $\lambda_i$ macierzy $A_i$ oraz wektora własnego $x_i \in \mathbb{C}^n$ związanego z wartością własną $\lambda_i$ macierz $A_{i+1}$ otrzymujemy w następujący sposób:
+	$$ A_{i+1} = A_i - \lambda_i x_i x_i^* $$
+	
+	Wartość własna $\lambda_{i+1}$ macierzy $A_{i+1}$ jest mniejsza co do modułu od wartości własnej $\lambda_i$ ($|\lambda_{i+1}| < |\lambda_i|$), więc metoda potęgowa zastosowana na macierzy $A_{i+1}$ znajdzie wartość własną $\lambda_{i+1}$.
+	
+	Niech $\delta \in \mathbb{R}$ będzie zadaną dokładnością przybliżenia wartości własnej $\lambda_i$. Mając przybliżenie początkowej $x_i^{(0)} \in \mathbb{C}^n$ wektora własnego odpowiadającego wartości własnej $\lambda_i$ mamy:
+	\begin{align}
+		\begin{split}
+			\label{przyblizenie-wektora}
+			y_i^{(k)}       & = A_i x_i^{(k-1)} \\
+			x_i^{(k)}       & = \frac{y_i^{(k)}}{|| y_i^{(k)} ||_2}
+		\end{split}
+	\end{align}
+
+	\begin{align}
+		\label{przyblizenie-wartosci}
+		\lambda_i^{(k)} = \langle y_i^{(k)}, x_i^{(k-1)} \rangle
+	\end{align}
+	gdzie równania \eqref{przyblizenie-wektora} przybliżają wektor początkowy związany z dominującą wartością własną macierzy $A_i$, a równanie \eqref{przyblizenie-wartosci} przybliża tą dominującą wartość własną.
+	
+	Przybliżanie kontynuujemy, aż zostanie spełniony warunek stopu:
+	$$ | \lambda_i^{(k)} - \lambda_i^{(k-1)} | < \delta $$
+	
+	Obliczenia powtarzamy dla $i = 0, \dots, n-1$.
+	
+	
+	\section{Implementacja metody}
+	Implementacja metody podzielona jest na następujące kroki:
+	\begin{enumerate}
+		\item Obliczenie macierzy $G$ oraz wektora $F$ na podstawie podanych punktów pomiarowych (funkcja \texttt{computeApproximationEquation}).
+		\item Obliczenie współczynników $\alpha_1, \dots, \alpha_4$ (funkcja \texttt{computeApproximationCoefficients}).
+		\item Uzyskanie elementu optymalnego (funkcja \texttt{composeApproximationFunction}).
+	\end{enumerate}
+
+	
+	
+	\section{Poprawność metody}
+	Dla przykładowych punktów pomiarowych testowanych przeze mnie metoda była poprawna, to jest znajdowała funkcję, która aproksymowała te punkty. Zdarzało się jednak, że aproksymacja ta nie była zbyt dokładna.
+	
+	Zatem ogólnie można stwierdzić, że metoda jest poprawna. W swoich obliczeniach w sekcji 2 nie stosowałem żadnych restrykcyjnych założeń, zatem powinna być wykonalna dla wszystkich zestawów punktów pomiarowych, z zastrzeżeniem, że dla niektórych może nie być dokładna.
+	
+	
+	
+	
+	\section{Przykłady}
+	Przykład 1 został wygenerowany poprzez obliczenie danej funkcji aproksymowanej $f$ w węzłach, a następnie zaburzenie tych wartości poprzez dodanie szumu. Dopiero na tych zaburzonych wartościach wykonano aproksymację.
+	
+	W przykładach 2-4 zostały użyte dokładne wartości w węzłach dla funkcji aproksymowanej $f$.
+	
+	W przykładach 5-6 użyte zostały wartości pomiarowe, nie mające powiązania z żadną funkcją.
+	
+	
+	\begin{enumerate}[label=\textbf{Przykład \arabic*}]
+		\item
+		Funkcja aproksymowana: $f(x) = x^2$.\\
+		Zaburzenie wartości:
+		\begin{itemize}
+			\item mnożnik z zakresu $<\frac{1}{2}, 2>$
+			\item dodanie stałej z zakresu $<0, 10>$
+		\end{itemize}
+		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
+
+	
+		Dokładność aproksymacji zależy głównie od wylosowanego szumu. Element optymalny dość dobrze aproksymuje węzły, jednakże ze względu na duże zaburzenie wartości w węzłach nie aproksymuje on dobrze funkcji wejściowej $f(x) = x^2$.
+		
+		\item
+		Funkcja aproksymowana: $f(x) = x^2$.\\
+		Brak zaburzenia wartości.\\
+		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
+		
+		Metoda dokładnie aproksymuje funkcję z bazy przestrzeni elementu optymalnego, jeżeli dane nie są zaburzone.
+		
+		\item
+		Funkcja aproksymowana: $f(x) = x^3$.\\
+		Brak zaburzenia wartości.\\
+		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
+		
+		Metoda dobrze aproksymuje funkcję w okolicy węzłów, dla $x < -1$ błąd aproksymacji jest coraz większy.
+		
+		\item
+		Funkcja aproksymowana: $f(x) = \cos x + \tan x + x^3$.\\
+		Brak zaburzenia wartości.\\
+		Węzły: $x \in \{-\frac{\pi}{3} -\frac{\pi}{4}, \frac{\pi}{6}, 0, \frac{\pi}{6}, \frac{\pi}{4}, \frac{\pi}{3} \}$
+		
+		Dla funkcji składającej się z sumy funkcji spoza bazy elementu optymalnego metoda wykonała dość dobrą aproksymację w przedziale, na którym występują węzły. Poza tym przedziałem ($|x| > \frac{\pi}{3}$) błąd aproksymacji wzrasta.
+		
+		\item
+		Węzły:
+		\begin{align*}
+			\begin{tabular}{|c|c|c|}
+				\hline
+				i & $x_i$ & $f_i$ \\ \hline
+				1 &  1  & 40  \\ \hline
+				2 &  2  & 10  \\ \hline
+				3 &  3  & -4  \\ \hline
+				4 &  4  & 10  \\ \hline
+			\end{tabular}
+		\end{align*}
+		
+		
+		Gdy liczba węzłów jest równa liczbie funkcji z bazy (4), to aproksymacja staje się interpolacją, ponieważ w węzłach wartości elementu optymalnego są równe wartościom pomiarowym.
+		
+		\item
+		Węzły:
+		\begin{align*}
+			\begin{tabular}{|c|c|c|}
+				\hline
+				i & $x_i$ & $f_i$ \\ \hline
+				1 &   1   &  50   \\ \hline
+				2 &   2   &  -20  \\ \hline
+				3 &   3   &  18   \\ \hline
+				4 &   4   &  -25  \\ \hline
+				5 &   5   &  10   \\ \hline
+				6 &   6   &  70   \\ \hline
+				7 &   7   &  -10  \\ \hline
+			\end{tabular}
+		\end{align*}
+		
+
+		W przypadku dużych zmianach między wartościami kolejnych węzłów aproksymacja nie jest dokładna.
+		
+	\end{enumerate}
+	
+	
+	
+	
+	\section{Wnioski}
+	\begin{enumerate}
+		\item Element optymalny w tym przypadku odwzorowuje dokładnie funkcje z bazy (gdy dane nie są zaburzone) (przykład 2).
+		\item Dla 4 punktów pomiarowych aproksymacja jest dokładna (staje się interpolacją). Dla większej ilości punktów nie ma takiej zależności (przykład 5).
+		\item Im więcej punktów pomiarowych, pomiędzy którymi wstępują większe moduły zmian wartości, tym aproksymacja jest gorsza (przykład 6).
+		\item Aproksymacja jest zazwyczaj dość dobra w przedziale, na którym występują węzły. Poza nim, jak można się zresztą spodziewać, błąd aproksymacji wzrasta (przykłady 3, 4).
+	\end{enumerate}
+	
+	
+	
+	\section{Funkcja do testowania metody}
+	Funkcja \texttt{plotApproximation(x, f, pointsCount, paddingMultiplier)} umożliwia łatwe testowanie metody. Oblicza ona element optymalny, a następnie wyświetla wykres elementu optymalnego oraz nanosi na niego punkty pomiarowe.
+	
+	Obszar, na jakim rysowany jest wykres jest powiększony o $paddingMultiplier * (\max_{i \in {1, \dots, m}} x_i - \min_{i \in {1, \dots, m}} x_i)$ w celu zobrazowania elementu optymalnego również poza zakresem punktów pomiarowych. Domyślna wartość $paddingMultiplier = \frac{1}{6}$.
+	
+	Argumenty przyjmowane przez tą funkcję opisane są w pliku \textit{plotApproximation.m} (nad nagłówkiem funkcji).
+	
+	Przykładowe wywołanie funkcji:
+	\texttt{plotApproximation([0 1 2 3], [5 6 8 -5])}
+	
+	Dodatkowo aby ułatwić sprawdzanie tej metody aproksymacji dla funkcji został stworzony skrypt \texttt{approximateFunction.m}. Zawiera on obliczenie wartości danej funkcji $f$, a następnie dodanie \textit{szumu} do każdego węzła aproksymacji:
+	$$
+	f_i = rand(S_{min}, S_{max}) +  f(x_i) * rand(P_{min}, P_{max})
+	$$
+	gdzie $S_{min}, S_{max} \in \mathbb{R}$ są stałymi, które zostaną dodane do każdej obliczonej wartości funkcji, $P_{min}, P_{max} \in \mathbb{R}$ oznaczają zakres procentowy przez który zostaną pomnożone obliczone wartości funkcji.
+	
+	Dzięki temu można faktycznie sprawdzić poprawność aproksymacji dla zaburzonych danych.
+	
+	
+	\section{Interfejs graficzny}
+	Do metody został dołączony interfejs graficzny umożliwiający łatwe wprowadzanie punktów pomiarowych, zmianę parametrów (współczynnik powiększenia obszaru, a także ilość punktów wewnątrz obszaru, na których zostanie narysowany wykres) i dokonanie z tymi danymi aproksymacji.
+	
+	
+	
+	\section{Bibliografia}
+	\begin{enumerate}
+		\item Informacje z wykładu \textit{Metod numerycznych 2} (wydział MiNI PW, dr Iwona Wróbel), w szczególności temat dotyczący \textit{metody potęgowej z normowaniem}, wraz z algorytmem.
+	\end{enumerate}
+	
+\end{document}
