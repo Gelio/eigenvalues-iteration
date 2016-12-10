@@ -95,89 +95,18 @@
 	
 	
 	\section{Poprawność metody}
-	Dla przykładowych punktów pomiarowych testowanych przeze mnie metoda była poprawna, to jest znajdowała funkcję, która aproksymowała te punkty. Zdarzało się jednak, że aproksymacja ta nie była zbyt dokładna.
-	
-	Zatem ogólnie można stwierdzić, że metoda jest poprawna. W swoich obliczeniach w sekcji 2 nie stosowałem żadnych restrykcyjnych założeń, zatem powinna być wykonalna dla wszystkich zestawów punktów pomiarowych, z zastrzeżeniem, że dla niektórych może nie być dokładna.
+	\textbf{TODO}
 	
 	
 	
 	
 	\section{Przykłady}
-	Przykład 1 został wygenerowany poprzez obliczenie danej funkcji aproksymowanej $f$ w węzłach, a następnie zaburzenie tych wartości poprzez dodanie szumu. Dopiero na tych zaburzonych wartościach wykonano aproksymację.
-	
-	W przykładach 2-4 zostały użyte dokładne wartości w węzłach dla funkcji aproksymowanej $f$.
-	
-	W przykładach 5-6 użyte zostały wartości pomiarowe, nie mające powiązania z żadną funkcją.
+	\textbf{TODO}
 	
 	
 	\begin{enumerate}[label=\textbf{Przykład \arabic*}]
 		\item
-		Funkcja aproksymowana: $f(x) = x^2$.\\
-		Zaburzenie wartości:
-		\begin{itemize}
-			\item mnożnik z zakresu $<\frac{1}{2}, 2>$
-			\item dodanie stałej z zakresu $<0, 10>$
-		\end{itemize}
-		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
-
-	
-		Dokładność aproksymacji zależy głównie od wylosowanego szumu. Element optymalny dość dobrze aproksymuje węzły, jednakże ze względu na duże zaburzenie wartości w węzłach nie aproksymuje on dobrze funkcji wejściowej $f(x) = x^2$.
-		
-		\item
-		Funkcja aproksymowana: $f(x) = x^2$.\\
-		Brak zaburzenia wartości.\\
-		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
-		
-		Metoda dokładnie aproksymuje funkcję z bazy przestrzeni elementu optymalnego, jeżeli dane nie są zaburzone.
-		
-		\item
-		Funkcja aproksymowana: $f(x) = x^3$.\\
-		Brak zaburzenia wartości.\\
-		Węzły: $x \in \{-1, 1, 2, 4, 5, 6\}$
-		
-		Metoda dobrze aproksymuje funkcję w okolicy węzłów, dla $x < -1$ błąd aproksymacji jest coraz większy.
-		
-		\item
-		Funkcja aproksymowana: $f(x) = \cos x + \tan x + x^3$.\\
-		Brak zaburzenia wartości.\\
-		Węzły: $x \in \{-\frac{\pi}{3} -\frac{\pi}{4}, \frac{\pi}{6}, 0, \frac{\pi}{6}, \frac{\pi}{4}, \frac{\pi}{3} \}$
-		
-		Dla funkcji składającej się z sumy funkcji spoza bazy elementu optymalnego metoda wykonała dość dobrą aproksymację w przedziale, na którym występują węzły. Poza tym przedziałem ($|x| > \frac{\pi}{3}$) błąd aproksymacji wzrasta.
-		
-		\item
-		Węzły:
-		\begin{align*}
-			\begin{tabular}{|c|c|c|}
-				\hline
-				i & $x_i$ & $f_i$ \\ \hline
-				1 &  1  & 40  \\ \hline
-				2 &  2  & 10  \\ \hline
-				3 &  3  & -4  \\ \hline
-				4 &  4  & 10  \\ \hline
-			\end{tabular}
-		\end{align*}
-		
-		
-		Gdy liczba węzłów jest równa liczbie funkcji z bazy (4), to aproksymacja staje się interpolacją, ponieważ w węzłach wartości elementu optymalnego są równe wartościom pomiarowym.
-		
-		\item
-		Węzły:
-		\begin{align*}
-			\begin{tabular}{|c|c|c|}
-				\hline
-				i & $x_i$ & $f_i$ \\ \hline
-				1 &   1   &  50   \\ \hline
-				2 &   2   &  -20  \\ \hline
-				3 &   3   &  18   \\ \hline
-				4 &   4   &  -25  \\ \hline
-				5 &   5   &  10   \\ \hline
-				6 &   6   &  70   \\ \hline
-				7 &   7   &  -10  \\ \hline
-			\end{tabular}
-		\end{align*}
-		
-
-		W przypadku dużych zmianach między wartościami kolejnych węzłów aproksymacja nie jest dokładna.
+		\textbf{TODO}
 		
 	\end{enumerate}
 	
@@ -186,35 +115,13 @@
 	
 	\section{Wnioski}
 	\begin{enumerate}
-		\item Element optymalny w tym przypadku odwzorowuje dokładnie funkcje z bazy (gdy dane nie są zaburzone) (przykład 2).
-		\item Dla 4 punktów pomiarowych aproksymacja jest dokładna (staje się interpolacją). Dla większej ilości punktów nie ma takiej zależności (przykład 5).
-		\item Im więcej punktów pomiarowych, pomiędzy którymi wstępują większe moduły zmian wartości, tym aproksymacja jest gorsza (przykład 6).
-		\item Aproksymacja jest zazwyczaj dość dobra w przedziale, na którym występują węzły. Poza nim, jak można się zresztą spodziewać, błąd aproksymacji wzrasta (przykłady 3, 4).
+		\item \textbf{TODO}
 	\end{enumerate}
 	
 	
 	
 	\section{Funkcja do testowania metody}
-	Funkcja \texttt{plotApproximation(x, f, pointsCount, paddingMultiplier)} umożliwia łatwe testowanie metody. Oblicza ona element optymalny, a następnie wyświetla wykres elementu optymalnego oraz nanosi na niego punkty pomiarowe.
-	
-	Obszar, na jakim rysowany jest wykres jest powiększony o $paddingMultiplier * (\max_{i \in {1, \dots, m}} x_i - \min_{i \in {1, \dots, m}} x_i)$ w celu zobrazowania elementu optymalnego również poza zakresem punktów pomiarowych. Domyślna wartość $paddingMultiplier = \frac{1}{6}$.
-	
-	Argumenty przyjmowane przez tą funkcję opisane są w pliku \textit{plotApproximation.m} (nad nagłówkiem funkcji).
-	
-	Przykładowe wywołanie funkcji:
-	\texttt{plotApproximation([0 1 2 3], [5 6 8 -5])}
-	
-	Dodatkowo aby ułatwić sprawdzanie tej metody aproksymacji dla funkcji został stworzony skrypt \texttt{approximateFunction.m}. Zawiera on obliczenie wartości danej funkcji $f$, a następnie dodanie \textit{szumu} do każdego węzła aproksymacji:
-	$$
-	f_i = rand(S_{min}, S_{max}) +  f(x_i) * rand(P_{min}, P_{max})
-	$$
-	gdzie $S_{min}, S_{max} \in \mathbb{R}$ są stałymi, które zostaną dodane do każdej obliczonej wartości funkcji, $P_{min}, P_{max} \in \mathbb{R}$ oznaczają zakres procentowy przez który zostaną pomnożone obliczone wartości funkcji.
-	
-	Dzięki temu można faktycznie sprawdzić poprawność aproksymacji dla zaburzonych danych.
-	
-	
-	\section{Interfejs graficzny}
-	Do metody został dołączony interfejs graficzny umożliwiający łatwe wprowadzanie punktów pomiarowych, zmianę parametrów (współczynnik powiększenia obszaru, a także ilość punktów wewnątrz obszaru, na których zostanie narysowany wykres) i dokonanie z tymi danymi aproksymacji.
+	\textbf{TODO}
 	
 	
 	
