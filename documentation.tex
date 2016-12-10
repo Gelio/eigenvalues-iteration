@@ -95,18 +95,51 @@
 	
 	
 	\section{Poprawność metody}
-	\textbf{TODO}
+	Biorąc wektor $x_i^{(0)} = [1 1 1 \dots 1]^T$ za przybliżenie początkowe metoda jest poprawna, ponieważ wektor ten ma każdą niezerową składową, zatem daje się przybliżyć do dowolnego wektora w przestrzeni wektorów własnych.
 	
+	Po wykonaniu testów stwierdzam, że metoda jest poprawna, znajduje wszystkie wartości własne macierzy $A$ oraz odpowiadające im wektory własne, a jej wyniki są zbliżone do tych z funkcji \texttt{eig} realizującej to samo zadanie, dostępnej w Matlabie.
 	
 	
 	
 	\section{Przykłady}
-	\textbf{TODO}
+	Z powodu niewielkiej liczby parametrów w zadaniu przykłady pokazują porównanie metody potęgowej z normowaniem oraz metody \texttt{eig} dostępnej w Matlabie.
 	
+	W każdym przykładzie przyjęty jest limit iteracji równy $100$, ale w większości przypadków nie został on osiągnięty.
 	
 	\begin{enumerate}[label=\textbf{Przykład \arabic*}]
 		\item
-		\textbf{TODO}
+		$n = 5, \delta = 0.1$
+		\begin{align*}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                                        & metoda potęgowa & funkcja \texttt{eig} \\ \hline
+			maksymalny błąd $A x_i - \lambda_i x_i$ &      16.0       &         14.7         \\ \hline
+			       norma macierzy błędu $E$         &      22.2       &         22.5         \\ \hline
+			           czas przybliżania            &    0.4330 ms    &      0.0912 ms       \\ \hline
+		\end{tabular}
+		\end{align*}
+	
+		Pod względem dokładności obie metody są podobne, jednak funkcja \texttt{eig} dominuje pod względem szybkości - jest ponad czterokrotnie szybsza.
+		
+		\item
+		$n = 5, \delta = 10^{-5}$
+		
+		Zwiększenie dokładności spowodowało zmniejszenie maksymalnego błędu $A x_i - \lambda_i x_i$ metody potęgowej do 14.7 (wynik podobny do funkcji \texttt{eig}) przy jednoczesnym wydłużeniu czasu przybliżania do $2.61$ ms (ponad sześciokrotny wzrost).
+		
+		
+		\item
+		$n = 20, \delta = 0.1$
+		\begin{align*}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                                        & metoda potęgowa & funkcja \texttt{eig} \\ \hline
+			maksymalny błąd $A x_i - \lambda_i x_i$ &      39.0       &         29.6         \\ \hline
+			       norma macierzy błędu $E$         &      108.7      &        110.2         \\ \hline
+			           czas przybliżania            &    6.7451 ms    &      0.9639 ms       \\ \hline
+		\end{tabular}
+		\end{align*}
+		
+		Zwiększenie rozmiaru macierzy zmniejszyło dokładność obu metod oraz wydłużyło ich czas działania.
 		
 	\end{enumerate}
 	
